@@ -13,19 +13,42 @@ import static java.util.stream.Collectors.toList;
 
 public class GameTest {
     @Test
+    public void testDetermineWinner_Basic() {
+        int numPlayers = 3;
+        int numCards = 12;
+
+        var p1 = new Player("p1", new PlayerStats(5,0,0));
+        var p2 = new Player("p2", new PlayerStats(9,0,0));
+        var p3 = new Player("p3", new PlayerStats(4,0,0));
+
+        var players = new ArrayList<Player>(List.of(p1, p2, p3));
+
+        // test
+        var newPlayers =new Game(numPlayers, numCards, false).determineWinner(players);
+
+        assertEquals(3, newPlayers.size());
+        assertEquals(1, newPlayers.stream()
+                                  .filter(p -> p.getName().equals("p1") && p.getPlayerStats().numGamesWon() == 0)
+                                  .count());
+        assertEquals(1, newPlayers.stream()
+                                  .filter(p -> p.getName().equals("p2") && p.getPlayerStats().numGamesWon() == 1)
+                                  .count());
+        assertEquals(1, newPlayers.stream()
+                                  .filter(p -> p.getName().equals("p3") && p.getPlayerStats().numGamesWon() == 0)
+                                  .count());
+    }
+
+    @Test
     public void testApply_Basic() {
         int numCards = 12;
         int maxCard = numCards;
         var strategy = new NextCard();
-        var players = new ArrayList<Player>();
 
         var p1 = new Player("p1", strategy, maxCard, new Hand());
         var p2 = new Player("p2", strategy, maxCard, new Hand());
         var p3 = new Player("p3", strategy, maxCard, new Hand());
 
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
+        var players = new ArrayList<Player>(List.of(p1, p2, p3));
 
         var numPlayers = players.size();
 
@@ -48,7 +71,6 @@ public class GameTest {
         int numCards = 12;
         int maxCard = numCards;
         var strategy = new NextCard();
-        var players = new ArrayList<Player>();
 
         var h1 = new Hand(List.of(1,5,9));
         var p1 = new Player("p1", strategy, maxCard, h1);
@@ -59,9 +81,7 @@ public class GameTest {
         var h3 = new Hand(List.of(7,2,3));
         var p3 = new Player("p3", strategy, maxCard, h3);
 
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
+        var players = new ArrayList<Player>(List.of(p1, p2, p3));
 
         var numPlayers = players.size();
         var kitty = new Hand(List.of(10,11,12));

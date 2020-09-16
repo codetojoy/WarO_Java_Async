@@ -19,6 +19,10 @@ dependencies {
 
 sourceCompatibility = 15
 
+run {
+    standardInput = System.in
+}
+
 tasks.withType(JavaCompile) {
     options.compilerArgs += '--enable-preview'
 }

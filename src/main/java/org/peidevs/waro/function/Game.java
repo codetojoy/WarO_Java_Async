@@ -46,7 +46,7 @@ public class Game implements UnaryOperator<List<Player>> {
 
         kitty.cardsAsIntStream()
              .boxed()
-             .map(prizeCard -> new Round(prizeCard))
+             .map(prizeCard -> new Round(prizeCard, logger))
              .forEach(round -> results.push(round.apply(results.pop())));
 
         return results.pop();
@@ -56,7 +56,7 @@ public class Game implements UnaryOperator<List<Player>> {
 
     protected List<Player> determineWinner(List<Player> players) {
         var winner = players.stream()
-                               .max( comparing(Player::getTotal).reversed() )
+                               .max( comparing(Player::getTotal) )
                                .get()
                                .winsGame();
 
@@ -65,7 +65,7 @@ public class Game implements UnaryOperator<List<Player>> {
                                 .filter(p->!p.getName().equals(winnerName))
                                 .collect(toList());
         newPlayers.add(winner);
+
         return newPlayers;
     }
-
 }

@@ -23,7 +23,7 @@ public class Config {
 
         // -----------------------------------
         // configure players as desired
-        players.add(new Player("Beethoven", new MinCard(), MAX_CARD));
+        players.add(new Player("You", new Console(), MAX_CARD));
         players.add(new Player("Chopin", new NextCard(), MAX_CARD));
         players.add(new Player("Mozart", new MaxCard(), MAX_CARD));
 
