@@ -17,6 +17,12 @@ public class Config {
     private static final int NUM_GAMES = 1;
     private static final boolean IS_VERBOSE = true;
 
+    // API remote strategy
+    private static final String SCHEME = "http";
+    private static final String HOST = "localhost:8080";
+    private static final String PATH = "waro/strategy";
+    private static final String MODE = "max";
+
     @Bean
     public List<Player> players() {
         var players = new ArrayList<Player>();
@@ -24,7 +30,7 @@ public class Config {
         // -----------------------------------
         // configure players as desired
         players.add(new Player("You", new Console(), MAX_CARD));
-        players.add(new Player("Chopin", new NextCard(), MAX_CARD));
+        players.add(new Player("Chopin", new ApiRemote(SCHEME, HOST, PATH, MODE), MAX_CARD));
         players.add(new Player("Mozart", new MaxCard(), MAX_CARD));
 
         return players;

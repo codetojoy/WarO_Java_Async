@@ -10,7 +10,8 @@ a Java submission for War-O as a code exercise
     - Java 15 (second preview) `record`
     - Java 15 (preview) `sealed`
 * goals include: 
-    - call strategy in the background, via `CompleteableFuture`
+    - API/remote strategy (called in the background, via `CompleteableFuture`)
+        - see [here](https://github.com/codetojoy/WarO_Strategy_API_Java) for implementation
     - functional style
     - immutable objects (not necessarily efficient)
     - minimal use of for-loops
