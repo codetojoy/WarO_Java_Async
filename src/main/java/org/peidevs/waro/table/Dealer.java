@@ -1,12 +1,12 @@
 package org.peidevs.waro.table;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.List;
+import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import com.codepoetics.protonpack.StreamUtils;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 
 import org.peidevs.waro.player.*;
 
@@ -17,7 +17,9 @@ public class Dealer {
         var hands = pair.getRight();
 
         // TODO: is there a zip function in JDK ?
-        var newPlayers = StreamUtils.zip(players, hands,
+        // https://stackoverflow.com/questions/17640754
+
+        var newPlayers = Streams.zip(players, hands,
                                          (player, hand) -> player.reset(hand)).collect(toList());
 
         var kitty = pair.getLeft();
