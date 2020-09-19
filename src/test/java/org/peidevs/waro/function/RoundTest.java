@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.*;
 
-import java.util.stream.*;
 import static java.util.stream.Collectors.toList;
 
 public class RoundTest {
@@ -19,7 +18,7 @@ public class RoundTest {
         int maxCard = numCards;
         var strategy = new MaxCard();
         var players = new ArrayList<Player>();
-        
+
         var h1 = new Hand(List.of(1,2,3));
         var p1 = new Player("p1", strategy, maxCard, h1);
 
@@ -28,16 +27,16 @@ public class RoundTest {
 
         var h3 = new Hand(List.of(7,8,9));
         var p3 = new Player("p3", strategy, maxCard, h3);
-        
+
         players.add(p1);
         players.add(p2);
         players.add(p3);
-        
+
         int prizeCard = 10;
-        
+
         // test
         var newPlayers = new Round(prizeCard).apply(players.stream()).collect(toList());
-        
+
         assertEquals(3, newPlayers.size());
         assertEquals(2, newPlayers.get(0).getNumCardsInHand());
         assertEquals(2, newPlayers.get(1).getNumCardsInHand());
@@ -55,7 +54,7 @@ public class RoundTest {
         int maxCard = numCards;
         var strategy = new MaxCard();
         var players = new ArrayList<Player>();
-        
+
         var h1 = new Hand(List.of(1,2,3));
         var p1 = new Player("p1", strategy, maxCard, h1);
 
@@ -64,36 +63,36 @@ public class RoundTest {
 
         var h3 = new Hand(List.of(7,8,9));
         var p3 = new Player("p3", strategy, maxCard, h3);
-        
+
         players.add(p1);
         players.add(p2);
         players.add(p3);
-        
+
         // test
         var result = round.getAllBids(players.stream(), 10);
-        
+
         assertEquals(3, result.size());
     }
-    
+
     @Test
     public void testFindWinningBid_Basic() {
         var round = new Round();
         int maxCard = 50;
         var strategy = new MaxCard();
-        
+
         var p1 = new Player("Beethoven", strategy, maxCard, new Hand());
         var p2 = new Player("Chopin", strategy, maxCard, new Hand());
         var p3 = new Player("Mozart", strategy, maxCard, new Hand());
-        
+
         int prizeCard = 20;
         var bids = new ArrayList<Bid>();
         bids.add( new Bid(prizeCard, 10, p1) );
         bids.add( new Bid(prizeCard, 12, p2) );
         bids.add( new Bid(prizeCard, 14, p3) );
-        
+
         // test
         var result = round.findWinningBid(bids);
-        
+
         assertEquals("Mozart", result.bidder().getName());
     }
 }

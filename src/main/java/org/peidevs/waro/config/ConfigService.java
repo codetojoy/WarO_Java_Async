@@ -1,6 +1,7 @@
 package org.peidevs.waro.config;
 
 import org.peidevs.waro.player.Player;
+import org.peidevs.waro.table.DeckProvider;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -17,6 +18,7 @@ public class ConfigService {
     public int getNumCards() { return context.getBean(Config.BEAN_NUM_CARDS, Integer.class); }
     public int getNumGames() { return context.getBean(Config.BEAN_NUM_GAMES, Integer.class); }
     public boolean isVerbose() { return context.getBean(Config.BEAN_IS_VERBOSE, Boolean.class); }
+    public DeckProvider getDeckProvider() { return context.getBean(Config.BEAN_DECK_PROVIDER, DeckProvider.class); }
 
     public List<Player> getPlayers() {
         return context.getBean(Config.BEAN_PLAYERS, List.class);

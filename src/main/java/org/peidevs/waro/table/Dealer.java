@@ -12,8 +12,8 @@ import org.peidevs.waro.player.*;
 
 public class Dealer {
 
-    public Table deal(int numPlayers, int numCards, Stream<Player> players) {
-        var pair = deal(numCards, numPlayers);
+    public Table deal(int numPlayers, int numCards, Stream<Player> players, DeckProvider deckProvider) {
+        var pair = deal(numCards, numPlayers, deckProvider);
         var hands = pair.getRight();
 
         // TODO: is there a zip function in JDK ?
@@ -29,11 +29,11 @@ public class Dealer {
     // ------- internal
 
     // @return pair with kitty and list of other hands
-    protected ImmutablePair<Hand,Stream<Hand>> deal(int numCards, int numPlayers) {
+    protected ImmutablePair<Hand,Stream<Hand>> deal(int numCards, int numPlayers, DeckProvider deckProvider) {
         int numGroups = numPlayers + 1; // include kitty
         assertEvenNumberOfCards(numCards, numGroups);
 
-        var deck = buildShuffledDeck(numCards);
+        var deck = deckProvider.buildDeck(numCards);
         int numCardsPerHand = numCards / numGroups;
 
         // TODO: is there a way to partition using Java 8 ?
@@ -44,12 +44,6 @@ public class Dealer {
         var pair = new ImmutablePair<Hand, Stream<Hand>>(kitty, handsNoKitty);
 
         return pair;
-    }
-
-    protected List<Integer> buildShuffledDeck(int numCards) {
-        var cards = IntStream.range(1,numCards+1).boxed().collect(toList());
-        Collections.shuffle(cards, new Random(new Date().getTime()));
-        return cards;
     }
 
     protected void assertEvenNumberOfCards(int numCards, int numGroups) {

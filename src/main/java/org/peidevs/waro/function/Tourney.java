@@ -15,18 +15,20 @@ public class Tourney implements UnaryOperator<List<Player>> {
     private final int numPlayers;
     private final int numCards;
     private final int numGames;
+    private final DeckProvider deckProvider;
 
-    public Tourney(int numPlayers, int numCards, int numGames, boolean isVerbose) {
+    public Tourney(int numPlayers, int numCards, int numGames, boolean isVerbose, DeckProvider deckProvider) {
         this.numPlayers = numPlayers;
         this.numCards = numCards;
         this.numGames = numGames;
         this.logger = new Log(isVerbose);
         this.isVerbose = isVerbose;
+        this.deckProvider = deckProvider;
     }
 
     @Override
     public List<Player> apply(List<Player> players) {
-        UnaryOperator<List<Player>> game = new Game(numPlayers, numCards, isVerbose);
+        UnaryOperator<List<Player>> game = new Game(numPlayers, numCards, isVerbose, deckProvider);
         Stream<List<Player>> stream = Stream.iterate(players, game).limit(numGames + 1);
         List<List<Player>> results = stream.collect(toList());
         var newPlayers = results.get(results.size() - 1);

@@ -14,17 +14,19 @@ public class Game implements UnaryOperator<List<Player>> {
     private final Log logger;
     private final int numPlayers;
     private final int numCards;
+    private final DeckProvider deckProvider;
 
-    public Game(int numPlayers, int numCards, boolean isVerbose) {
+    public Game(int numPlayers, int numCards, boolean isVerbose, DeckProvider deckProvider) {
         this.numPlayers = numPlayers;
         this.numCards = numCards;
         this.logger = new Log(isVerbose);
+        this.deckProvider = deckProvider;
     }
 
     @Override
     public List<Player> apply(List<Player> players) {
         var dealer = new Dealer();
-        var table = dealer.deal(numPlayers, numCards, players.stream());
+        var table = dealer.deal(numPlayers, numCards, players.stream(), deckProvider);
 
         var kitty = table.kitty();
         var readyPlayers = table.players();

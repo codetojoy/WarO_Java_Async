@@ -4,7 +4,7 @@ import org.peidevs.waro.strategy.*;
 import org.peidevs.waro.table.Hand;
 
 import static org.junit.Assert.*;
-import java.util.*;
+// import java.util.*;
 import org.junit.*;
 
 import java.util.stream.*;

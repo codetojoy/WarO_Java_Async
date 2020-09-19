@@ -4,15 +4,13 @@ import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.*;
 
-import java.util.stream.*;
 import static java.util.stream.Collectors.toList;
 
 import org.peidevs.waro.player.*;
 import org.peidevs.waro.strategy.*;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
 public class DealerTest {
+    private DeckProvider shuffledDeckProvider = new ShuffledDeckProvider();
 
     @Test
     public void testDeal_Table_Basic() {
@@ -21,7 +19,6 @@ public class DealerTest {
         int numCards = 12;
         int maxCard = numCards;
         var strategy = new MaxCard();
-        var players = new ArrayList<Player>();
 
         var h1 = new Hand(List.of(1,2,3));
         var p1 = new Player("p1", strategy, maxCard, h1);
@@ -32,14 +29,12 @@ public class DealerTest {
         var h3 = new Hand(List.of(7,8,9));
         var p3 = new Player("p3", strategy, maxCard, h3);
 
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
+        var players = new ArrayList<Player>(List.of(p1, p2, p3));
 
         var numPlayers = players.size();
 
         // test (use new numCards value)
-        var table = dealer.deal(numPlayers, 20, players.stream());
+        var table = dealer.deal(numPlayers, 20, players.stream(), shuffledDeckProvider);
 
         assertEquals(5, table.kitty().cardsAsIntStream().count());
         assertEquals(5, table.players().get(0).getNumCardsInHand());
@@ -54,7 +49,7 @@ public class DealerTest {
         int numPlayers = 4;
 
         // test
-        var pair = dealer.deal(numCards, numPlayers);
+        var pair = dealer.deal(numCards, numPlayers, shuffledDeckProvider);
 
         var kitty = pair.getLeft();
         var hands = pair.getRight();
@@ -73,21 +68,6 @@ public class DealerTest {
         int numPlayers = 4;
 
         // test
-        dealer.deal(numCards, numPlayers);
+        dealer.deal(numCards, numPlayers, shuffledDeckProvider);
     }
-
-    @Test
-    public void testBuildShuffledDeck() {
-        var dealer = new Dealer();
-        int numCards = 4;
-
-        // test
-        var result = dealer.buildShuffledDeck(numCards);
-
-        assertEquals(4, result.size());
-        assertTrue(result.contains(1));
-        assertTrue(result.contains(2));
-        assertTrue(result.contains(3));
-        assertTrue(result.contains(4));
-        }
 }

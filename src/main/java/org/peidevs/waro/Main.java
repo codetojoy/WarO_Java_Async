@@ -21,9 +21,10 @@ public class Main {
         int numGames = configService.getNumGames();
         boolean isVerbose = configService.isVerbose();
         var players = configService.getPlayers();
+        var deckProvider = configService.getDeckProvider();
 
         // play the games
-        var tourney = new Tourney(numPlayers, numCards, numGames, isVerbose);
+        var tourney = new Tourney(numPlayers, numCards, numGames, isVerbose, deckProvider);
 
         tourney.apply(players)
                .stream()
