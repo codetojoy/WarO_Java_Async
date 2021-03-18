@@ -5,7 +5,7 @@ apply plugin: 'application'
 mainClassName = 'org.peidevs.waro.Main'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
